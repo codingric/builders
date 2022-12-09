@@ -1,10 +1,10 @@
 FROM golang:alpine AS builder
 
 RUN apk --no-cache add make curl && \
-    go get -u go.mozilla.org/sops/v3/cmd/sops
+    go install go.mozilla.org/sops/v3/cmd/sops@latest
 
 RUN mkdir /download \
-    && curl -L https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl -o /download/kubectl \
+    && curl -L https://dl.k8s.io/release/v1.25.3/bin/linux/amd64/kubectl -o /download/kubectl \
     && curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.2/kustomize_v4.5.2_linux_amd64.tar.gz  -o /download/kustomize.tar.gz \
     && tar xzf /download/kustomize.tar.gz -C /download/ \
     && curl -L https://github.com/viaduct-ai/kustomize-sops/releases/download/v3.0.1/ksops_latest_Linux_x86_64.tar.gz  -o /download/ksops.tar.gz \
