@@ -11,8 +11,9 @@ RUN mkdir /download \
     && tar xzf /download/ksops.tar.gz -C /download/ \
     && curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /download/yq
 
-FROM alpine:3.12
+FROM alpine:3.16
 LABEL com.circleci.preserve-entrypoint=true
+LABEL org.opencontainers.image.source https://github.com/codingric/builders
 
 
 RUN apk --no-cache add bash curl ca-certificates jq gettext gnupg git make

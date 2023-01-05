@@ -26,14 +26,7 @@ jobs:
           name: Build Images
           no_output_timeout: 15m
           command: |
-            find -mindepth 1 -name Dockerfile | while read p; do d=`basename $(dirname $p)`; docker build -t ghcr.io/codingric/$d ./$d; docker push -t ghcr.io/codingric/$d; done
-      - run:
-          name: Build Gotester
-          working_directory: ~/repo/gotester
-          no_output_timeout: 15m
-          command: |
-            docker build -t ghcr.io/codingric/gotester .
-            docker push ghcr.io/codingric/gotester
+            find -mindepth 1 -name Dockerfile | while read p; do d=`basename $(dirname $p)`; docker build -t ghcr.io/codingric/$d ./$d; docker push ghcr.io/codingric/$d; done
 
 
 # Invoke jobs via workflows
