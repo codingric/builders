@@ -5,7 +5,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build-kksops:
+  build-images:
     working_directory: ~/repo
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -23,12 +23,17 @@ jobs:
           command: |
             docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       - run:
-          name: Docker build/push
-          working_directory: ~/repo/kksops
+          name: Build Images
           no_output_timeout: 15m
           command: |
-            docker build -t ghcr.io/codingric/kksops .
-            docker push ghcr.io/codingric/kksops
+            find -mindepth 1 -name Dockerfile | while read p; do d=`basename $(dirname $p)`; docker build -t ghcr.io/codingric/$d ./$d; docker push -t ghcr.io/codingric/$d; done
+      - run:
+          name: Build Gotester
+          working_directory: ~/repo/gotester
+          no_output_timeout: 15m
+          command: |
+            docker build -t ghcr.io/codingric/gotester .
+            docker push ghcr.io/codingric/gotester
 
 
 # Invoke jobs via workflows
@@ -37,4 +42,4 @@ workflows:
   image-builder: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-kksops
+      - build-images
