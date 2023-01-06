@@ -4,6 +4,8 @@ LABEL org.opencontainers.image.source https://github.com/codingric/builders
 
 WORKDIR /build
 
-RUN apk --no-cache add make curl gcc musl-dev
+RUN apk --no-cache add make curl gcc musl-dev tzdata
+ENV TZ=Australia/Melbourne
+
 
 #ENTRYPOINT ["go", "test", "./...", "-gcflags=all=-l", "-v"]
