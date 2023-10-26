@@ -11,7 +11,7 @@ RUN mkdir /download \
     && tar xzf /download/ksops.tar.gz -C /download/ \
     && curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /download/yq
 
-FROM alpine:3.17
+FROM alpine:3.18.3
 LABEL com.circleci.preserve-entrypoint=true
 LABEL org.opencontainers.image.source https://github.com/codingric/builders
 
